@@ -2,6 +2,9 @@ import { StyleSheet, Text, View,TextInput,Image,TouchableOpacity, Linking } from
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 
+// references : https://www.freecodecamp.org/news/how-to-add-authentication-to-react-native-in-three-steps-using-firebase/
+// https://rnfirebase.io/auth/usage
+// https://docs.expo.dev/guides/using-firebase/
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,6 +36,10 @@ export default function Login() {
 
         <TouchableOpacity style={styles.loginBtn}>
           <Text style={styles.loginText}>LOGIN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => Linking.openURL('http://google.com')}>
+          <Text style={styles.sign_up_button}>Not an existing user? Sign Up!</Text>
         </TouchableOpacity>
       </View>
     );
@@ -81,7 +88,19 @@ export default function Login() {
       height:50,
       alignItems:"center",
       justifyContent:"center",
-      marginTop:40,
+      marginTop: 20,
       backgroundColor:"#e1ab1e",
+    },
+
+    sign_up_button:{
+      marginLeft:50,
+      height: 30,
+      backgroundColor: "black",
+      width: 200,
+      color: "#1b78e4",
+      textAlign:"center",
+      fontWeight: "bold",
+      marginTop: 10,
+      textDecorationLine: "underline",
     },
   });
