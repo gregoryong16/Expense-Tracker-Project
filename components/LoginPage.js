@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View,TextInput,Image,TouchableOpacity, Linking } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
+import auth from '@react-native-firebase/auth';
+// references : 
+// https://blog.codemagic.io/firebase-authentication-using-react-native/
+// https://console.firebase.google.com/u/0/project/expensetracker-f6f69/overview
 
-// references : https://www.freecodecamp.org/news/how-to-add-authentication-to-react-native-in-three-steps-using-firebase/
-// https://rnfirebase.io/auth/usage
-// https://docs.expo.dev/guides/using-firebase/
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
