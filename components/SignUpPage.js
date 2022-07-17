@@ -1,32 +1,24 @@
 import { StyleSheet, Text, View,TextInput,Image,TouchableOpacity, Linking,KeyboardAvoidingView} from 'react-native';
-import React, { useState,useEffect } from 'react';
+import React, { useState , useEffect} from 'react';
 import {auth} from "../firebase";
 import {useNavigation} from "@react-navigation/core";
-import { signInWithEmailAndPassword , onAuthStateChanged} from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 // references : 
 // https://www.youtube.com/watch?v=20TSEoJkg5k
 // https://www.youtube.com/watch?v=ql4J6SpLXZA
-// https://firebase.google.com/docs/auth/web/manage-users
 
-export default function Login() {
+export default function SignUp() {
   const [isSignedIn, setIsSignedIn] =useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation= useNavigation()
-  useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth, user=>{
-      if (isSignedIn){
-        navigation.navigate("Main")
-      }
-    })
-    return unsubscribe
-  })
-  const handleSignIn =() =>{
-    signInWithEmailAndPassword(auth,email,password)
+  const handleSignUp =() =>{
+    createUserWithEmailAndPassword(auth,email,password)
     .then(userCredentials => {
         const user = userCredentials.user;
-        console.log("signed in!")
+        console.log(user.email)
         setIsSignedIn(true)
+        navigation.navigate("Main")
       })
     .catch(error => alert(error.message))
   }
@@ -54,16 +46,12 @@ export default function Login() {
         />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-          <Text style={styles.forgot_button}>Forgot Password?</Text>
+        <TouchableOpacity onPress ={handleSignUp} style={styles.signUpBtn}>
+          <Text style={styles.loginText}>Sign Up!</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress ={handleSignIn} style={styles.loginBtn}>
-          <Text style={styles.loginText}>LOGIN</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-          <Text style={styles.sign_up_button}>Not an existing user? Sign Up!</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.sign_in_button}>Already a user? Sign In!</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     );
@@ -100,17 +88,7 @@ export default function Login() {
       padding: 10,
     },
 
-    forgot_button: {
-      height: 30,
-      backgroundColor: "black",
-      width: 200,
-      color: "#1b78e4",
-      textAlign:"center",
-      fontWeight: "bold",
-      textDecorationLine: "underline",
-    },
-
-    loginBtn:{
+    signUpBtn:{
       width:250,
       borderRadius:25,
       height:50,
@@ -120,7 +98,7 @@ export default function Login() {
       backgroundColor:"#e1ab1e",
     },
 
-    sign_up_button:{
+    sign_in_button:{
       height: 30,
       backgroundColor: "black",
       width: 200,
